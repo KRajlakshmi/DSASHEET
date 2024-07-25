@@ -1,0 +1,28 @@
+Intuition
+The goal is to find the subarray within a given array that has the maximum sum
+
+Approach
+Use Kadane's Algorithm, which involves iterating through the array while maintaining a running sum (cs) of the current subarray. If the running sum becomes negative, reset it to zero, as continuing with a negative sum would decrease the overall sum of any subsequent subarray.
+
+Complexity
+Time complexity: O(n) , where
+𝑛
+n is the number of elements in the array. This is because we only make a single pass through the array.
+Space complexity:O(1). We are using a constant amount of extra space regardless of the input size.
+*****************************CODE SOLUTION***********************************************
+class Solution {
+    public static int maxSubArray(int[] nums) {
+        int cs = 0;
+        int ms = nums[0];//Integer.MIN_VALUE;
+        for(int i= 0; i<nums.length; i++){
+            cs = cs+nums[i];
+            if(cs> ms){
+                ms= cs;
+            }
+            if(cs < 0){
+                cs = 0;
+            }
+        }
+       return ms;
+    }
+}
