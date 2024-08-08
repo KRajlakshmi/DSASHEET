@@ -1,0 +1,65 @@
+Intuition
+Rightmost ascent: Identifies where the sequence stops increasing. This is crucial because to find the "next" permutation, you need to alter the sequence from the point of this last increase.
+
+Smallest larger element: Ensures that the swap will result in the smallest possible increment in the permutation.
+
+Reverse the suffix: Ensures that the sequence after the pivot is the smallest possible permutation, which makes it the next permutation in lexicographical order.
+
+Approach
+1.Find the rightmost ascent
+2.Find the smallest element larger than the pivot
+3.Swap the pivot with the smallest element larger than it
+4.Reverse the sequence after the original pivot’s position
+
+Complexity
+Time complexity:O(n)
+Space complexity:O(1)
+Code
+class Solution {
+    public void nextPermutation(int[] nums) {
+
+        int n= nums.length;
+        int k = n-2;
+
+        //null checks
+
+        if(nums.length == 0 || nums == null)
+        return;
+
+        //find k 3 1 4 4 2
+        for(int i=n-1; i>0; i--){
+            if(nums[i]<=nums[i-1])
+            k--;
+            else{
+                break;
+            }
+        }
+        //if k = -1 reverse
+        if(k == -1){
+            reverse(nums, 0, n-1);
+            return;
+        }
+        //else replace k with greater  element reverse
+        for(int i=n-1; i>0; i--){
+            if(nums[i]>nums[k]){
+                //swap
+                int temp = nums[k];
+                nums[k] = nums[i];
+                nums[i]= temp;
+                break;
+            }
+        }
+        
+        reverse(nums, k+1, n-1);
+    }
+
+    void reverse(int []nums, int start, int end){
+        while(start<end){
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
